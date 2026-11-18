@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="de" data-theme="dark">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="referrer" content="no-referrer">
+  <title>ORB Trading Intelligence Dashboard</title>
+  <link rel="stylesheet" href="styles.css">
+  <!-- TradingView Lightweight Charts 4.2.0 (Open Source, Apache-2.0); Rückfall auf zweites CDN -->
+  <script defer src="https://unpkg.com/lightweight-charts@4.2.0/dist/lightweight-charts.standalone.production.js"
+    onerror="var s=document.createElement('script');s.src='https://cdn.jsdelivr.net/npm/lightweight-charts@4.2.0/dist/lightweight-charts.standalone.production.js';document.head.appendChild(s)"></script>
+  <script type="module" src="app.js"></script>
+</head>
+<body>
+  <noscript><div class="banner warn">Bitte JavaScript aktivieren.</div></noscript>
+  <header class="topbar">
+    <div class="brand">
+      <div class="logo-mark">ORB</div>
+      <div><div class="brand-title">ORB Trading Intelligence</div><div class="brand-sub">Analyse in USD · Darstellung in EUR · <span id="mode-badge" class="mode">Live-Analyse</span></div></div>
+    </div>
+    <div class="hdr-grid">
+      <div class="hdr-item"><span class="lbl">Datum</span><span id="h-date">–</span></div>
+      <div class="hdr-item"><span class="lbl">Deutschland</span><span id="h-de" class="mono">–</span></div>
+      <div class="hdr-item"><span class="lbl">New York</span><span id="h-ny" class="mono">–</span></div>
+      <div class="hdr-item"><span class="lbl">US-Börse</span><span id="h-market">–</span></div>
+      <div class="hdr-item"><span class="lbl" id="h-cd1-lbl">Börsenöffnung in</span><span id="h-cd1" class="mono">–</span></div>
+      <div class="hdr-item"><span class="lbl">Opening Range fertig in</span><span id="h-cd2" class="mono">–</span></div>
+      <div class="hdr-item"><span class="lbl">S&amp;P 500 (SPY)</span><span id="h-spy">–</span></div>
+      <div class="hdr-item"><span class="lbl">Nasdaq-100 (QQQ)</span><span id="h-qqq">–</span></div>
+      <div class="hdr-item"><span class="lbl">EUR/USD</span><span id="h-fx" class="mono">–</span><span id="h-fx-src" class="tiny">–</span></div>
+      <div class="hdr-item"><span class="lbl">Aktiendaten</span><span id="h-conn">–</span><span id="h-feed" class="tiny">–</span></div>
+      <div class="hdr-item"><span class="lbl">Letzte Aktualisierung</span><span id="h-upd" class="mono">–</span><span id="h-age" class="tiny">–</span></div>
+    </div>
+  </header>
+
+  <div id="banners"></div>
+
+  <nav class="tabs" role="tablist">
+    <button class="tab active" data-tab="dashboard" role="tab">Dashboard</button>
+    <button class="tab" data-tab="positions" role="tab">Positionen</button>
+    <button class="tab" data-tab="journal" role="tab">Trading-Journal</button>
+    <button class="tab" data-tab="backtest" role="tab">Backtesting</button>
+    <button class="tab" data-tab="settings" role="tab">Einstellungen</button>
+    <button class="tab" data-tab="status" role="tab">Status &amp; Hilfe</button>
+  </nav>
+
+  <main>
+    <section id="tab-dashboard" class="tabpane active">
+      <div id="kpis" class="kpis"></div>
+      <h2 class="sec-title">Top-ORB-Setups</h2>
+      <div id="top" class="top-setups"></div>
+      <div class="toolbar">
+        <input id="search" type="search" placeholder="Suche Unternehmen / Ticker …" aria-label="Suche">
+        <select id="filter" aria-label="Filter">
+          <option value="all">Alle Aktien</option>
+          <option value="long">Bestätigte Long-Setups</option>
+          <option value="bear">Bärische Setups</option>
+          <option value="watch">Beobachten / warten</option>
+          <option value="none">Kein Einstieg / verpasst</option>
+          <option value="data">Datenprobleme</option>
+          <option value="pos">Mit Position</option>
+        </select>
+        <div class="seg" role="group" aria-label="Ansicht">
+          <button id="v-table" class="seg-btn active">Tabelle</button>
+          <button id="v-cards" class="seg-btn">Karten</button>
+        </div>
+        <details class="colchooser"><summary>Spalten</summary><div id="colchooser"></div></details>
+        <span class="spacer"></span>
+        <span class="tiny" id="sort-info">Sortierung: Standard</span>
+      </div>
+      <div id="table-wrap" class="table-wrap"></div>
+      <div id="cards-wrap" class="cards-grid hidden"></div>
+    </section>
+    <section id="tab-positions" class="tabpane"></section>
+    <section id="tab-journal" class="tabpane"></section>
+    <section id="tab-backtest" class="tabpane"></section>
+    <section id="tab-settings" class="tabpane"></section>
+    <section id="tab-status" class="tabpane"></section>
+  </main>
+
+  <dialog id="detail" class="modal wide" aria-label="Detailansicht"></dialog>
+  <dialog id="posform" class="modal" aria-label="Position erfassen"></dialog>
+  <div id="toasts" class="toasts" aria-live="polite"></div>
+
+  <footer class="footer">
+    Keine Anlageberatung und kein Handelssystem. Alle Signale sind regelbasierte technische Analysen ohne Gewinngarantie; Ausführung ausschließlich manuell durch dich.
+    Umgerechnete US-Referenzkurse sind keine Trade-Republic-Kurse. Stop-Orders garantieren keinen Ausführungspreis. NO VALID ORB – NO TRADE.
+  </footer>
+</body>
+</html>
